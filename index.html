@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Guesswork</title>
+  <meta name="description" content="A word-guessing game you can play offline. Pick 5, 6 or 7 letters.">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Guesswork">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Home -->
+    <section id="screen-home" class="screen active" aria-label="Home">
+      <div class="home-inner">
+        <div class="logo" aria-hidden="true">
+          <span class="t correct">G</span><span class="t present">W</span>
+        </div>
+        <h1>Guesswork</h1>
+        <p class="tagline">Find the hidden word. Works offline.</p>
+
+        <div class="length-picker" role="radiogroup" aria-label="Word length">
+          <button class="len" role="radio" data-len="5">5<small>letters</small></button>
+          <button class="len" role="radio" data-len="6">6<small>letters</small></button>
+          <button class="len" role="radio" data-len="7">7<small>letters</small></button>
+        </div>
+
+        <button id="btn-play" class="primary big">Play</button>
+        <p id="resume-note" class="muted small" hidden></p>
+
+        <div class="home-links">
+          <button id="btn-home-stats" class="ghost">Stats</button>
+          <button id="btn-home-help" class="ghost">How to play</button>
+        </div>
+        <p id="install-hint" class="muted small" hidden></p>
+      </div>
+    </section>
+
+    <!-- Game -->
+    <section id="screen-game" class="screen" aria-label="Game">
+      <header class="bar">
+        <button class="icon-btn" id="btn-back" aria-label="Home">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg>
+        </button>
+        <div class="bar-title"><span id="game-len">5</span> letters</div>
+        <div class="bar-right">
+          <button class="icon-btn" id="btn-help" aria-label="How to play">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r=".6" class="fill"/></svg>
+          </button>
+          <button class="icon-btn" id="btn-stats" aria-label="Stats">
+            <svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>
+          </button>
+        </div>
+      </header>
+      <div id="toast" role="status" aria-live="polite"></div>
+      <main id="board-wrap"><div id="board" aria-label="Guesses"></div></main>
+      <div id="keyboard" aria-label="Keyboard"></div>
+    </section>
+
+    <!-- Result / meaning -->
+    <section id="screen-result" class="screen" aria-label="Result">
+      <header class="bar">
+        <button class="icon-btn" id="btn-result-home" aria-label="Home">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg>
+        </button>
+        <div class="bar-title" id="result-heading">Got it!</div>
+        <div class="bar-right"></div>
+      </header>
+      <div class="result-body">
+        <div id="result-word" class="result-word"></div>
+        <p id="result-sub" class="muted"></p>
+        <div id="result-meaning" class="meaning"></div>
+        <div id="result-streak" class="streak-strip"></div>
+      </div>
+      <footer class="result-actions">
+        <button id="btn-next" class="primary big">Next word</button>
+        <button id="btn-result-stats" class="ghost">Stats</button>
+      </footer>
+    </section>
+  </div>
+
+  <!-- Stats dialog -->
+  <dialog id="dlg-stats" aria-labelledby="stats-title">
+    <div class="dlg-head">
+      <h2 id="stats-title">Stats</h2>
+      <button class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" data-stats-len="5">5 letters</button>
+      <button role="tab" data-stats-len="6">6 letters</button>
+      <button role="tab" data-stats-len="7">7 letters</button>
+    </div>
+    <div class="stat-grid">
+      <div><b id="st-played">0</b><span>Played</span></div>
+      <div><b id="st-win">0</b><span>Win %</span></div>
+      <div><b id="st-cur">0</b><span>Current streak</span></div>
+      <div><b id="st-max">0</b><span>Best streak</span></div>
+    </div>
+    <h3>Guesses needed</h3>
+    <div id="st-dist" class="dist"></div>
+  </dialog>
+
+  <!-- Help dialog -->
+  <dialog id="dlg-help" aria-labelledby="help-title">
+    <div class="dlg-head">
+      <h2 id="help-title">How to play</h2>
+      <button class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <p>Guess the hidden word in 6 tries. Each guess must be a real word of the right length.</p>
+    <p>After each guess the tiles change colour:</p>
+    <div class="help-row"><span class="t correct">P</span><span class="t">L</span><span class="t">A</span><span class="t">N</span><span class="t">T</span></div>
+    <p class="small"><b>P</b> is in the word and in the right spot.</p>
+    <div class="help-row"><span class="t">S</span><span class="t present">T</span><span class="t">O</span><span class="t">N</span><span class="t">E</span></div>
+    <p class="small"><b>T</b> is in the word but in a different spot.</p>
+    <div class="help-row"><span class="t">C</span><span class="t">R</span><span class="t">A</span><span class="t absent">N</span><span class="t">E</span></div>
+    <p class="small"><b>N</b> is not in the word.</p>
+    <p class="small muted">When the round ends you'll see what the word means. Play as many rounds as you like, with or without internet.</p>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
