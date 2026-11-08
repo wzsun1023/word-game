@@ -216,3 +216,53 @@ dialog p { line-height: 1.45; margin: 8px 0; }
   .home-inner { gap: 12px; }
   .len { width: 72px; height: 72px; }
 }
+
+/* ---------- header: length menu + coins ---------- */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.bar { grid-template-columns: 1fr auto 1fr; }
+.len-select { position: relative; display: inline-flex; align-items: center; justify-self: start; }
+.len-select select {
+  appearance: none; -webkit-appearance: none; font: inherit; font-weight: 800; font-size: 17px;
+  color: var(--text); background: var(--key); border: 0; border-radius: 999px;
+  padding: 9px 34px 9px 14px; cursor: pointer;
+}
+.len-select svg { position: absolute; right: 10px; width: 18px; height: 18px; pointer-events: none; }
+.coins {
+  display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 18px;
+  padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line);
+}
+.coins.bump { animation: pop .35s; }
+.coin {
+  display: inline-block; width: 16px; height: 16px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe08a, #e0a526 60%, #b97f12);
+  box-shadow: inset 0 0 0 1.5px rgba(0, 0, 0, .15); flex: 0 0 auto;
+}
+
+/* ---------- power-ups ---------- */
+.powerups { display: flex; gap: 8px; justify-content: center; padding: 0 8px 4px; flex: 0 0 auto; }
+.power {
+  display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong);
+  background: var(--surface); border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: 14px;
+}
+.power svg { width: 18px; height: 18px; }
+.power .price { display: inline-flex; align-items: center; gap: 3px; color: var(--muted); font-weight: 800; }
+.power .price .coin { width: 12px; height: 12px; }
+.power:disabled { opacity: .4; cursor: default; }
+.power.confirm { background: var(--present); border-color: var(--present); color: #fff; }
+.power.confirm .price { color: #fff; }
+.key.hinted { background: var(--absent); color: var(--on-color); opacity: .55; }
+
+/* ---------- result coins ---------- */
+.coin-award {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-weight: 800; font-size: 18px; margin: -8px 0 18px;
+}
+
+/* ---------- dialogs ---------- */
+#dlg-out h2 { margin: 4px 0 6px; font-size: 22px; }
+.dlg-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.dlg-actions .primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.dlg-actions .primary:disabled { opacity: .45; }
+.reward-table { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; font-size: 13px; }
+.reward-table div { background: var(--bg); border-radius: 6px; padding: 6px 0; }
+.reward-table b { display: block; font-size: 15px; }

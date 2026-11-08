@@ -18,39 +18,19 @@
 </head>
 <body>
   <div id="app">
-    <!-- Home -->
-    <section id="screen-home" class="screen active" aria-label="Home">
-      <div class="home-inner">
-        <div class="logo" aria-hidden="true">
-          <span class="t correct">G</span><span class="t present">W</span>
-        </div>
-        <h1>Guesswork</h1>
-        <p class="tagline">Find the hidden word. Works offline.</p>
-
-        <div class="length-picker" role="radiogroup" aria-label="Word length">
-          <button class="len" role="radio" data-len="5">5<small>letters</small></button>
-          <button class="len" role="radio" data-len="6">6<small>letters</small></button>
-          <button class="len" role="radio" data-len="7">7<small>letters</small></button>
-        </div>
-
-        <button id="btn-play" class="primary big">Play</button>
-        <p id="resume-note" class="muted small" hidden></p>
-
-        <div class="home-links">
-          <button id="btn-home-stats" class="ghost">Stats</button>
-          <button id="btn-home-help" class="ghost">How to play</button>
-        </div>
-        <p id="install-hint" class="muted small" hidden></p>
-      </div>
-    </section>
-
     <!-- Game -->
-    <section id="screen-game" class="screen" aria-label="Game">
+    <section id="screen-game" class="screen active" aria-label="Game">
       <header class="bar">
-        <button class="icon-btn" id="btn-back" aria-label="Home">
-          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg>
-        </button>
-        <div class="bar-title"><span id="game-len">5</span> letters</div>
+        <label class="len-select">
+          <span class="sr">Word length</span>
+          <select id="len-select" aria-label="Word length">
+            <option value="5">5 letters</option>
+            <option value="6">6 letters</option>
+            <option value="7">7 letters</option>
+          </select>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </label>
+        <div class="coins" id="coins" aria-label="Coins"><span class="coin" aria-hidden="true"></span><b id="coin-count">0</b></div>
         <div class="bar-right">
           <button class="icon-btn" id="btn-help" aria-label="How to play">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r=".6" class="fill"/></svg>
@@ -62,21 +42,30 @@
       </header>
       <div id="toast" role="status" aria-live="polite"></div>
       <main id="board-wrap"><div id="board" aria-label="Guesses"></div></main>
+      <div class="powerups">
+        <button id="btn-hint" class="power" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>
+          <span class="label">Hint</span><span class="price"><span class="coin"></span><span data-price="hint"></span></span>
+        </button>
+        <button id="btn-extra" class="power" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="label">6 more tries</span><span class="price"><span class="coin"></span><span data-price="extra"></span></span>
+        </button>
+      </div>
       <div id="keyboard" aria-label="Keyboard"></div>
     </section>
 
     <!-- Result / meaning -->
     <section id="screen-result" class="screen" aria-label="Result">
       <header class="bar">
-        <button class="icon-btn" id="btn-result-home" aria-label="Home">
-          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg>
-        </button>
+        <div></div>
         <div class="bar-title" id="result-heading">Got it!</div>
         <div class="bar-right"></div>
       </header>
       <div class="result-body">
         <div id="result-word" class="result-word"></div>
         <p id="result-sub" class="muted"></p>
+        <p id="result-coins" class="coin-award" hidden></p>
         <div id="result-meaning" class="meaning"></div>
         <div id="result-streak" class="streak-strip"></div>
       </div>
@@ -122,7 +111,22 @@
     <p class="small"><b>T</b> is in the word but in a different spot.</p>
     <div class="help-row"><span class="t">C</span><span class="t">R</span><span class="t">A</span><span class="t absent">N</span><span class="t">E</span></div>
     <p class="small"><b>N</b> is not in the word.</p>
-    <p class="small muted">When the round ends you'll see what the word means. Play as many rounds as you like, with or without internet.</p>
+    <h3>Coins</h3>
+    <p class="small">Solve a word to earn coins. The fewer guesses you need, the more you earn (coins by number of guesses):</p>
+    <div id="reward-table" class="reward-table"></div>
+    <p class="small">Spend coins on a <b>hint</b>, which greys out 2 letters that aren't in the word, or on <b>6 more tries</b> (once per word).</p>
+    <p class="small muted">Change the word length with the menu at the top. When a round ends you'll see what the word means.</p>
+    <p id="install-hint" class="small muted" hidden></p>
+  </dialog>
+
+  <!-- Out of guesses dialog -->
+  <dialog id="dlg-out" aria-labelledby="out-title">
+    <h2 id="out-title">Out of guesses</h2>
+    <p id="out-text">Buy 6 more tries to keep going, or see the answer.</p>
+    <div class="dlg-actions">
+      <button id="btn-out-buy" class="primary"></button>
+      <button id="btn-out-give" class="ghost">Show the answer</button>
+    </div>
   </dialog>
 
   <script src="app.js"></script>
