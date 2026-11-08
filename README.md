@@ -6,8 +6,12 @@ A word-guessing game you can play offline on your phone. It's a web app: open it
 
 ## Features
 
-- Pick **5, 6 or 7 letter** words. Play as many rounds as you like.
-- Six guesses to find the word. Green means the letter is in the right spot, amber means it's in the word but in a different spot, and grey means it's not in the word.
+- Choose **5, 6 or 7 letter** words from the menu at the top. The game remembers your choice, so each new round uses the same length.
+- Play as many rounds as you like. Six guesses to find the word. Green means the letter is in the right spot, amber means it's in the word but in a different spot, and grey means it's not in the word.
+- **Coins:** solving a word earns coins, and fewer guesses earn more (1 guess: 60, 2: 50, 3: 40, 4: 30, 5: 20, 6: 10, 7 to 12: 5). New players start with 50 coins.
+  - **Hint (20 coins):** greys out 2 letters on the keyboard that aren't in the word.
+  - **6 more tries (50 coins):** once per word. It's offered when you run out of guesses, or you can buy it any time from the button above the keyboard.
+  - Spending coins takes two taps, so an accidental tap costs nothing.
 - **Stats and streaks** for each word length: games played, win %, current and best streak, and how many guesses each win took.
 - When a round ends, a separate screen shows **what the word means**.
 - Works on iPhone and Android, and in light or dark mode.
@@ -27,7 +31,7 @@ Plain HTML, CSS and JavaScript, with no build step.
 
 | File | What it does |
 | --- | --- |
-| `index.html`, `styles.css`, `app.js` | The game itself |
+| `index.html`, `styles.css`, `app.js` | The game itself. Coin rewards and prices are constants at the top of `app.js` |
 | `sw.js` | Service worker: saves every file for offline play and refreshes them in the background |
 | `manifest.webmanifest`, `icons/` | Home-screen name, icon and full-screen mode |
 | `data/answers-N.json` | Possible answers for each length, with their meanings |
