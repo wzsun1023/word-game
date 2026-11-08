@@ -27,7 +27,7 @@ A word-guessing game you can play offline on your phone. It's a web app: open it
 
 ## How it's built
 
-Plain HTML, CSS and JavaScript, with no build step.
+Plain HTML, CSS and JavaScript, with no build step. For the full tech stack and the reasons behind each design choice, see [docs/TECH_STACK.md](docs/TECH_STACK.md).
 
 | File | What it does |
 | --- | --- |
