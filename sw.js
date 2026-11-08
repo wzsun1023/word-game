@@ -1,7 +1,7 @@
 // Offline support: saves the whole game on first visit, then serves it from the phone.
 // Files are refreshed in the background whenever there's a connection,
 // so updates show up the next time the app is opened.
-const CACHE = 'guesswork-v1';
+const CACHE = 'guesswork-v2';
 const FILES = [
   './',
   'index.html',
