@@ -228,7 +228,17 @@
     renderPowerups();
   }
 
+  // The Submit button only lights up for a full-length word that's in the word list.
+  const submitBtn = $('#btn-submit');
+  submitBtn.addEventListener('click', () => { submitBtn.blur(); handleKey('Enter'); });
+  function updateSubmit() {
+    const ok = !!game && !game.done && !busy && game.guesses.length < game.max &&
+      current.length === game.len && data.valid.has(current);
+    submitBtn.disabled = !ok;
+  }
+
   function paintCurrent() {
+    updateSubmit();
     const i = game.guesses.length;
     if (i >= game.max) return;
     [...rowEl(i).children].forEach((t, j) => {
@@ -293,6 +303,7 @@
 
     // reveal animation
     busy = true;
+    updateSubmit();
     const res = score(guess, game.answer);
     const tiles = [...rowEl(rowIdx).children];
     const step = 260;
@@ -308,6 +319,7 @@
       paintKeys();
       renderPowerups();
       busy = false;
+      updateSubmit();
       if (won) {
         rowEl(rowIdx).classList.add('win');
         toast(['Genius!', 'Brilliant!', 'Superb!', 'Great!', 'Nice!', 'Phew!'][rowIdx] || 'Just made it!');

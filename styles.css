@@ -146,7 +146,10 @@ h1 { font-size: 40px; margin: 0; letter-spacing: -.5px; }
 @keyframes bounce { 40% { transform: translateY(-14px); } 70% { transform: translateY(3px); } }
 
 /* keyboard */
-#keyboard { flex: 0 0 auto; padding: 6px 6px 10px; }
+#keyboard { flex: 0 0 auto; padding: 6px 6px 4px; }
+.submit-wrap { flex: 0 0 auto; display: flex; justify-content: center; padding: 0 12px 12px; }
+.primary.submit { width: 100%; max-width: 360px; font-size: 17px; padding: 13px 28px; transition: opacity .15s; }
+.primary.submit:disabled { opacity: .35; cursor: default; transform: none; }
 .kb-row { display: flex; gap: var(--kb-gap); margin-bottom: 8px; justify-content: center; }
 .key {
   flex: 1 1 0; height: 56px; border: 0; border-radius: 6px; background: var(--key); color: var(--key-text);
@@ -213,6 +216,7 @@ dialog p { line-height: 1.45; margin: 8px 0; }
 @media (max-height: 640px) {
   .key { height: 48px; }
   .kb-row { margin-bottom: 6px; }
+  .primary.submit { padding: 10px 24px; }
   .home-inner { gap: 12px; }
   .len { width: 72px; height: 72px; }
 }
